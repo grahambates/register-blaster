@@ -1,5 +1,5 @@
 .Info {
-  padding: 1.5rem 2rem;
+  padding: 1rem;
 }
 
 .Info table {
@@ -20,6 +20,10 @@
 }
 .unused:nth-child(odd) {
   background: #efefef;
+}
+
+.Actions {
+  margin-top: 1rem;
 }
 
 /* Register colors */

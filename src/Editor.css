@@ -1,0 +1,32 @@
+.Editor {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+}
+
+.Editor__root {
+  flex: 1;
+  overflow: auto;
+}
+
+.Editor__options {
+  padding: .5rem;
+	background: rgb(127, 219, 202);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Editor__options label {
+  margin-right: 1.5rem;
+}
+
+.Editor__ln {
+  width: 30px;
+  display: inline-block;
+	color: rgb(99, 119, 119);
+}
+
+.editor #codeArea {
+  padding-left: 40px !important;
+}
