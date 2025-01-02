@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Parser from "web-tree-sitter";
 import Editor from './Editor'
 import getRegInfo, { RegInfo } from './regInfo'
 import { useParser } from "./parser";
