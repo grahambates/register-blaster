@@ -130,8 +130,8 @@ export default function getRegInfo(tree: Parser.Tree): RegInfo[] {
             opSize = "w";
           }
         }
-        // Special case for div dest
-        if ((op === "divs" || op === "divu") && isDest) {
+        // Special case for div/mul dest
+        if ((op?.startsWith('div') || op?.startsWith('mul')) && isDest) {
           opSize = "l";
         }
       }
