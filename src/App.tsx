@@ -23,6 +23,7 @@ import { getSizeLabel } from "./syntax";
 
 const defaultSrc = `;-------------------------------------------------------------------------------
 ; Example - paste your code here
+; based on code by a/b (EAB forum)
 ;-------------------------------------------------------------------------------
 InitSin:
         moveq   #0,d0       ; amp=16384, len=1024
