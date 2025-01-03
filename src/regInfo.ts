@@ -1,6 +1,10 @@
 import Parser from "web-tree-sitter";
 import { getSizeBytes } from "./syntax";
 
+// TODO:
+// what to do about movem?
+// pea writes to a7
+
 export interface RegReference {
   startIndex: number;
   endIndex: number;
@@ -23,13 +27,16 @@ export interface RegInfo {
 }
 
 // Op size is word, with these exceptions:
-const longDefault = ["moveq", "exg", "lea", "pea"];
+const longDefault = ["moveq", "movea", "exg", "lea", "pea"];
 const byteDefault = [
   "nbcd",
   "abcd",
   "sbcd",
   "scc",
   "tas",
+  "ori",
+  "andi",
+  "eori",
   "scc",
   "scs",
   "seq",
@@ -50,7 +57,7 @@ const byteDefault = [
 const bitOps = ["bchg", "bset", "bclr", "btst"];
 
 // Dest register is read/write, with these exceptions:
-const readOnlyDest = ["tst", "cmp", "btst"];
+const readOnlyDest = ["tst", "cmp", "cmpa", "cmpi", "btst"];
 const writeOnlyDest = ["lea", "move", "moveq", "movem", "movea"];
 
 export default function getRegInfo(tree: Parser.Tree): RegInfo[] {
@@ -153,8 +160,9 @@ export default function getRegInfo(tree: Parser.Tree): RegInfo[] {
     if (parent?.type === "idx") {
       size = parent.childForFieldName("size")?.text.toLowerCase() ?? "w";
     }
-    if (!size) {
-      size = "w";
+    // Address registers are only ever written as longword
+    if (isWrite && regName.startsWith("a")) {
+      size = "l"
     }
 
     regUsage[regName].push({
@@ -163,7 +171,7 @@ export default function getRegInfo(tree: Parser.Tree): RegInfo[] {
       line: startPosition.row,
       isRead,
       isWrite,
-      size: getSizeBytes(size) ?? 2,
+      size: getSizeBytes(size ?? "w") ?? 2,
     });
   }
 
